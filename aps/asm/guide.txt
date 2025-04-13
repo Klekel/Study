@@ -1,0 +1,9 @@
+/c/riscv_cc/bin/riscv-none-elf-gcc -c -march=rv32i_zicsr -mabi=ilp32 startup.S -o startup.o
+/c/riscv_cc/bin/riscv-none-elf-gcc -c -march=rv32i_zicsr -mabi=ilp32 pereferia.c -o main.o
+=====================================================================================================
+/c/riscv_cc/bin/riscv-none-elf-gcc -march=rv32i_zicsr -mabi=ilp32 -Wl,--gc-sections -nostartfiles -T linker_script.ld startup.o main.o -o result.elf
+=====================================================================================================
+/c/riscv_cc/bin/riscv-none-elf-objcopy -O verilog --verilog-data-width=4 -j .text result.elf init_instr.mem
+/c/riscv_cc/bin/riscv-none-elf-objcopy -O verilog --verilog-data-width=4 -j .data -j .bss -j .sdata result.elf init_data.mem
+=====================================================================================================
+/c/riscv_cc/bin/riscv-none-elf-objdump -D result.elf > disasmed_result.S
